@@ -4,6 +4,8 @@ RUN pip install uv
 
 WORKDIR /app
 
+ENV PATH="/app/.venv/bin:$PATH"
+
 COPY ".python-version" "pyproject.toml" "uv.lock" ./
 
 RUN uv sync --locked
