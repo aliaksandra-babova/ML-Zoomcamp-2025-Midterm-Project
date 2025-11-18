@@ -4,11 +4,11 @@ RUN pip install uv
 
 WORKDIR /app
 
-COPY ".python-version", "pyproject.toml", "uv.lock", "./"
+COPY ".python-version" "pyproject.toml" "uv.lock" ./
 
 RUN uv sync --locked
 
-COPY "predict.py", "model.bin", "./"
+COPY "predict.py" "model.bin" ./
 
 EXPOSE 9696
 

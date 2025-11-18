@@ -12,7 +12,7 @@ with open('model.bin', 'rb') as f_in:
 
 @app.post("/predict")
 
-def predict(datapoint):
+def predict(datapoint: Dict[str, Any]):
     result = pipeline.predict_proba(datapoint)[0, 1]
 
     return {
