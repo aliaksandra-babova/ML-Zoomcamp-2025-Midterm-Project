@@ -51,33 +51,101 @@ Total Records: 6666 rows
  - **Conclusion**: slightly better accuracy (**ROC-AUC: 0.964**) than a simple logistic regression model
 
 3. RGBoost
-- Original accuracy on validation dataset: 0.96092
+- Original accuracy on validation dataset: 0.963
 - Parameters tuning:
-  - eta = 0.01: no improvement
-  - max_depth = 5: 0.004 improvement in ROC-AUC
+  - eta = 0.05: 0.001 improvement in ROC-AUC
+  - max_depth = 6: no improvement
   - min_child_weight = 1: no improvement
-- Final testing on full dataset: ROC-AUC: 0.9633681885262746
+- Final testing: ROC-AUC: 0.9644294894547085
               
 
  - **Conclusion**: A simple logistic regression model performs good enough 
 
+# Testing the predictions
 ## Running locally
-Install uastapi, requests and uvicorn:\
-`pip install fastapi uvicorn requests`\
-Run the app with uvicorn: \
-`uvicorn predict:app --host 0.0.0.0 --port 9696 --reload`\
-Change the "datapoint inside the service.py file: \
-`datapoint = {
+1. Clone the repo:
+```
+git clone https://github.com/aliaksandra-babova/ML-Zoomcamp-2025-Midterm-Project
+```
+2. Install uv:
+```
+pip install uv
+```
+3. Switch directory:
+```
+cd ML-Zoomcamp-2025-Midterm-Project
+```
+4. Install the project's dependencies:
+```
+uv sync
+```
+5. Run the app with uvicorn inside the virtual environment: 
+```
+uv run uvicorn predict:app --host 0.0.0.0 --port 9696 --reload
+```
+6. Send a request via the api docs (http://localhost:9696/docs) or with this curl:
+```
+curl -X 'POST' 'http://localhost:9696/predict' 
+   -H 'accept: application/json' 
+   -H 'Content-Type: application/json' 
+   -d '{
     "outlook": "overcast",
     "temperature": "mild",
     "humidity": "normal",
     "wind": "strong"
-}`\
-Run service.py:\
-`python service.py`
+   }'
+```
+7. You can also run the service.py script:
+```
+python service.py
+```
 
 ## Running Docker
-Build the docker image:\
-`docker build -t play-prediction .`\
-Run it:\
-`docker run -it --rm -p 9696:9696 play-prediction`
+1. Switch directory:
+```
+cd ML-Zoomcamp-2025-Midterm-Project
+```
+2. Build the docker image:
+```
+docker build -t play-prediction .
+```
+3. Run it:
+```
+docker run -it --rm -p 9696:9696 play-prediction
+```
+4. Send a request via the api docs (http://localhost:9696/docs) or with this curl: 
+```
+curl -X 'POST' 'http://localhost:9696/predict' 
+  -H 'accept: application/json' 
+  -H 'Content-Type: application/json' 
+  -d '{
+    "outlook": "overcast",
+    "temperature": "mild",
+    "humidity": "normal",
+    "wind": "strong"
+   }'
+```
+5. You can also run the service.py script:
+```
+python service.py
+```
+
+## Test online
+1. Open https://winter-violet-8319.fly.dev/docs to test the endpoint sending:
+```
+{
+    "outlook": "overcast",
+    "temperature": "mild",
+    "humidity": "normal",
+    "wind": "strong"
+   }
+```
+2. Run the service.py script:
+```
+python service.py
+```
+# Next steps
+1. I'm not sure about the data quality as I understand it is synthetic. Testing with some reasonable combination of conditions some predictions didn't make sense. So getting a real dataset for solving real problems is important.
+2. I didn't implement data validation for the input, it'd be nice to have.
+3. API documentation could be improved as well (goes with the previous point), all the features are categorical with very few options.
+4. With a real dataset I'd some feature engineering exploring feature dependencies and taking into account real life implications (ex. even moderate wind in combination with cold temperature and high humidity could prevent players from playing). 
