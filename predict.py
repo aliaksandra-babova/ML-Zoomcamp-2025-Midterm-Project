@@ -16,7 +16,7 @@ def predict(datapoint: Dict[str, Any]):
     result = pipeline.predict_proba(datapoint)[0, 1]
 
     return {
-        prediction: result,
+        predict: result,
         result: bool(result >=0.5)
     }
 
