@@ -97,8 +97,9 @@ curl -X 'POST' 'http://localhost:9696/predict'
 ```
 7. You can also run the service.py script:
 ```
-python service.py
+uv run python service.py
 ```
+> Note: if you need to open a new terminal, don't forget to switch directory (Step3)
 
 ## Running Docker
 1. Switch directory:
