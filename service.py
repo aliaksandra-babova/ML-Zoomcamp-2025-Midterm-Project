@@ -1,6 +1,8 @@
 import requests
 
-url = 'http://localhost:9696/predict'  
+#url = 'http://localhost:9696/predict'  
+
+url = 'https://winter-violet-8319.fly.dev/predict'
 
 datapoint = {
     "outlook": "overcast",
