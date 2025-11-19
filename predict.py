@@ -12,12 +12,16 @@ with open('model.bin', 'rb') as f_in:
 
 @app.post("/predict")
 
-def predict(datapoint: Dict[str, Any]):
+def predict_single(datapoint):
     result = pipeline.predict_proba(datapoint)[0, 1]
+    return float(result)
+
+def predict(datapoint: Dict[str, Any]):
+    prob = predict_single(datapoint)
 
     return {
-        prediction: result,
-        result: bool(result >=0.5)
+        "Prediction": prob,
+        "Result": bool(prob >=0.5)
     }
 
 if __name__ == "__main__":
